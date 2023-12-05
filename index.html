@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Adiposidade Corporal</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="mt-5 mb-4">Calculadora de Adiposidade Corporal</h2>
+  <form id="bodyFatForm">
+    <div class="form-group">
+      <label for="sexo">Sexo:</label>
+      <select class="form-control" id="sexo">
+        <option value="m">Masculino</option>
+        <option value="f">Feminino</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="circunferenciaQuadril">Circunferência do Quadril (cm):</label>
+      <input type="number" class="form-control" id="circunferenciaQuadril" required>
+    </div>
+    <div class="form-group">
+      <label for="altura">Altura (cm):</label>
+      <input type="number" class="form-control" id="altura" required>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="calcularIAC()">Calcular</button>
+  </form>
+
+  <div class="mt-4">
+    <h3>Medidas Ideais de IAC por Sexo, Idade e Altura</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sexo</th>
+          <th>Idade</th>
+          <th>Altura (cm)</th>
+          <th>Circunferência do Quadril (cm)</th>
+        
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Homens -->
+        <tr>
+          <td>Masculino</td>
+          <td>15-60</td>
+          <td>150-200</td>
+          <td>48cm a 108cm</td>
+          
+        </tr>
+
+        <!-- Mulheres -->
+        <tr>
+          <td>Feminino</td>
+          <td>15-60</td>
+          <td>140-190</td>
+          <td>43cm a 100 cm</td>
+          
+        </tr>
+        <!-- Adicione mais linhas conforme necessário -->
+      </tbody>
+    </table>
+  </div>
+
+  <div id="resultado" class="mt-4"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  function calcularIAC() {
+    var sexo = document.getElementById('sexo').value;
+    var circunferenciaQuadril = document.getElementById('circunferenciaQuadril').value;
+    var altura = document.getElementById('altura').value;
+
+    if (circunferenciaQuadril > 0 && altura > 0) {
+      var iac = (circunferenciaQuadril / (altura / 100 * Math.sqrt(altura / 100))) - 18;
+      displayResultadoIAC(iac);
+    } else {
+      alert('Por favor, insira valores válidos para circunferência do quadril e altura.');
+    }
+  }
+
+  function displayResultadoIAC(iac) {
+    var resultadoDiv = document.getElementById('resultado');
+    var resultadoHTML = '<p><strong>Índice de Adiposidade Corporal (IAC):</strong> ' + iac.toFixed(2) + '</p>';
+
+    if (iac < 8) {
+      resultadoHTML += '<p>Situação: Abaixo do Ideal! aumente o consumo de alimentos saudáveis e se exercite mais! (Abaixo do Peso)</p>';
+    } else if (iac >= 8 && iac <= 20) {
+      resultadoHTML += '<p>Situação:Peso ideal! O seu peso esta Saudável,continue mantendo bons hábitos alimentares e continue se exercitando</p>';
+    } else {
+      resultadoHTML += '<p>Situação: Acima do Ideal! Diminua o consumo calórico e aumente a pratica de atividades físicas (Sobrepeso ou Obesidade)</p>';
+    }
+
+    resultadoDiv.innerHTML = resultadoHTML;
+  }
+</script>
+
+</body>
+</html>
